@@ -1,5 +1,5 @@
-import { useMemo } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useMemo, useState } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import { AIModel, MODELS, PROVIDERS, TIER_LABEL, fmtContext, fmtPrice, providerOf } from "../data/models";
 import { Explain, ProviderChip } from "../components";
 import { useLevel } from "../level";
@@ -57,6 +57,22 @@ export default function Compare() {
   const bestIn = minOf(models.map((m) => m.priceIn), true);
   const bestOut = minOf(models.map((m) => m.priceOut), true);
   const bestCtx = minOf(models.map((m) => m.contextK), false);
+
+  const anyGpqa = models.some((m) => m.bench?.gpqaDiamond !== undefined);
+  const anySwe = models.some((m) => m.bench?.sweVerified !== undefined);
+  const bestGpqa = minOf(models.map((m) => m.bench?.gpqaDiamond ?? null), false);
+  const bestSwe = minOf(models.map((m) => m.bench?.sweVerified ?? null), false);
+
+  const [copied, setCopied] = useState(false);
+  const copyLink = async () => {
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      /* clipboard unavailable — ignore */
+    }
+  };
 
   return (
     <div className="container">
@@ -206,6 +222,48 @@ export default function Compare() {
                     <td key={m.id}><Cap on={m.caps.promptCaching} /></td>
                   ))}
                 </tr>
+                {anyGpqa && (
+                  <tr>
+                    <td className="rowlabel">
+                      GPQA Diamond score
+                      <Explain text="Graduate-level science questions — a test of hard reasoning. Higher is better." />
+                    </td>
+                    {models.map((m) => (
+                      <td key={m.id}>
+                        <span className="num">
+                          {m.bench?.gpqaDiamond !== undefined ? `${m.bench.gpqaDiamond}%` : "not published"}
+                        </span>
+                        {m.bench?.gpqaDiamond !== undefined && m.bench.gpqaDiamond === bestGpqa && (
+                          <span className="best-flag">✓ HIGHEST</span>
+                        )}
+                        {m.bench?.gpqaDiamond !== undefined && (
+                          <Bar value={m.bench.gpqaDiamond} max={100} />
+                        )}
+                      </td>
+                    ))}
+                  </tr>
+                )}
+                {anySwe && (
+                  <tr>
+                    <td className="rowlabel">
+                      SWE-bench Verified
+                      <Explain text="Fixing real bugs in real software — the key coding benchmark. Higher is better." />
+                    </td>
+                    {models.map((m) => (
+                      <td key={m.id}>
+                        <span className="num">
+                          {m.bench?.sweVerified !== undefined ? `${m.bench.sweVerified}%` : "not published"}
+                        </span>
+                        {m.bench?.sweVerified !== undefined && m.bench.sweVerified === bestSwe && (
+                          <span className="best-flag">✓ HIGHEST</span>
+                        )}
+                        {m.bench?.sweVerified !== undefined && (
+                          <Bar value={m.bench.sweVerified} max={100} />
+                        )}
+                      </td>
+                    ))}
+                  </tr>
+                )}
                 <tr>
                   <td className="rowlabel">Best for</td>
                   {models.map((m) => (
@@ -255,10 +313,16 @@ export default function Compare() {
               </table>
             </details>
           </div>
+          <div style={{ display: "flex", gap: 10, marginTop: 12, flexWrap: "wrap" }}>
+            <button className="btn" onClick={copyLink}>
+              {copied ? "✓ Link copied!" : "Copy shareable link"}
+            </button>
+            <Link className="btn" to="/calculator">Estimate monthly costs →</Link>
+          </div>
           <p className="small muted" style={{ marginTop: 10 }}>
             Data snapshot: July 2026. Prices are USD per 1M tokens, standard API rates (batch and
-            cached rates are typically much lower). "—" means not publicly confirmed. Always check
-            the provider's pricing page before committing.
+            cached rates are typically much lower). "—" or "not published" means no public figure
+            exists — we never estimate. <Link to="/about">About the data →</Link>
           </p>
         </div>
       )}

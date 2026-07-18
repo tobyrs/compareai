@@ -1,10 +1,13 @@
-import { NavLink, Route, Routes } from "react-router-dom";
+import { Link, NavLink, Route, Routes } from "react-router-dom";
 import { LevelProvider, useLevel } from "./level";
 import Home from "./pages/Home";
 import Compare from "./pages/Compare";
 import ModelsPage from "./pages/ModelsPage";
+import ModelDetail from "./pages/ModelDetail";
+import Calculator from "./pages/Calculator";
 import Advisor from "./pages/Advisor";
 import Learn from "./pages/Learn";
+import About from "./pages/About";
 
 function LevelToggle() {
   const { level, setLevel } = useLevel();
@@ -34,6 +37,7 @@ function Nav() {
           {link("/", "Home")}
           {link("/compare", "Compare")}
           {link("/models", "Models")}
+          {link("/calculator", "Calculator")}
           {link("/advisor", "Advisor")}
           {link("/learn", "Learn")}
         </div>
@@ -51,13 +55,17 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/compare" element={<Compare />} />
         <Route path="/models" element={<ModelsPage />} />
+        <Route path="/model/:id" element={<ModelDetail />} />
+        <Route path="/calculator" element={<Calculator />} />
         <Route path="/advisor" element={<Advisor />} />
         <Route path="/learn" element={<Learn />} />
+        <Route path="/about" element={<About />} />
       </Routes>
       <footer className="footer">
         <div className="container">
           CompareAI — the AI model comparison database. Data snapshot: July 2026. Prices and specs
           change frequently; always verify with the provider before committing to a plan.
+          {" "}<Link to="/about">About the data</Link>
         </div>
       </footer>
     </LevelProvider>

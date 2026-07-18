@@ -32,6 +32,11 @@ export interface AIModel {
     openWeights: boolean;
     promptCaching: boolean;
   };
+  /** Published benchmark scores (%, only where publicly reported — never estimated). */
+  bench?: {
+    gpqaDiamond?: number; // graduate-level science reasoning
+    sweVerified?: number; // real-world software engineering
+  };
   bestFor: string[];
   beginnerNote: string; // plain-English one-liner
   expertNote: string; // API-level detail
@@ -56,6 +61,7 @@ export const MODELS: AIModel[] = [
     id: "claude-fable-5", providerId: "anthropic", name: "Claude Fable 5", tier: "flagship",
     released: "2026", contextK: 1000, maxOutputK: 128, priceIn: 10, priceOut: 50,
     caps: { reasoning: true, vision: true, toolUse: true, openWeights: false, promptCaching: true },
+    bench: { gpqaDiamond: 91.3, sweVerified: 95.0 },
     bestFor: ["Hardest reasoning problems", "Long autonomous agent runs", "Complex code migrations"],
     beginnerNote: "Anthropic's smartest model. Overkill for everyday tasks, incredible for the hardest ones.",
     expertNote: "Thinking always on (adaptive only; explicit disable 400s). Raw CoT never returned. Requires 30-day data retention. Effort levels low→max.",
@@ -145,6 +151,17 @@ export const MODELS: AIModel[] = [
     considerations: ["DeepSeek and Gemini Flash-Lite undercut it further"],
   },
   {
+    id: "gpt-5-5", providerId: "openai", name: "GPT-5.5", tier: "flagship",
+    released: "2026", contextK: 1050, maxOutputK: 128, priceIn: 5, priceOut: null,
+    caps: { reasoning: true, vision: true, toolUse: true, openWeights: false, promptCaching: true },
+    bench: { gpqaDiamond: 92.8, sweVerified: 82.6 },
+    bestFor: ["Hard science reasoning", "Established frontier workloads"],
+    beginnerNote: "OpenAI's previous flagship — still one of the strongest models on hard science questions.",
+    expertNote: "1.05M ctx / 128K out. Requests above 272K input billed 2x input / 1.5x output for the whole request. Pro variant at $30/M input.",
+    strengths: ["Strong published benchmark record", "Very large context"],
+    considerations: ["Long-context surcharge above 272K input", "Superseded by GPT-5.6 Sol"],
+  },
+  {
     id: "gpt-5-4", providerId: "openai", name: "GPT-5.4", tier: "balanced",
     released: "2026", contextK: 400, maxOutputK: 128, priceIn: 2.5, priceOut: 15,
     caps: { reasoning: true, vision: true, toolUse: true, openWeights: false, promptCaching: true },
@@ -170,6 +187,7 @@ export const MODELS: AIModel[] = [
     id: "gemini-3-1-pro", providerId: "google", name: "Gemini 3.1 Pro", tier: "flagship",
     released: "2026", contextK: 2000, maxOutputK: 128, priceIn: 2, priceOut: 12,
     caps: { reasoning: true, vision: true, toolUse: true, openWeights: false, promptCaching: true },
+    bench: { gpqaDiamond: 94.3 },
     bestFor: ["Massive documents & codebases", "Multimodal analysis", "Long-context research"],
     beginnerNote: "Google's flagship — it can read more at once than any other major model (2M tokens).",
     expertNote: "2M ctx — largest in lineup. $2/$12 up to 200K tokens; long-context surcharge above. Paid-only since Apr 2026.",
@@ -212,6 +230,7 @@ export const MODELS: AIModel[] = [
     id: "grok-4-5", providerId: "xai", name: "Grok 4.5", tier: "flagship",
     released: "Jul 2026", contextK: 256, maxOutputK: 64, priceIn: 2, priceOut: 6,
     caps: { reasoning: true, vision: true, toolUse: true, openWeights: false, promptCaching: true },
+    bench: { sweVerified: 86.6 },
     bestFor: ["Reasoning on a budget", "Real-time / current-events apps"],
     beginnerNote: "xAI's newest model — flagship-level answers with unusually low prices.",
     expertNote: "Released Jul 8 2026 at $2/$6 — the cheapest current-gen frontier output pricing.",

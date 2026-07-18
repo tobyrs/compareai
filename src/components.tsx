@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { AIModel, Provider, TIER_LABEL, providerOf } from "./data/models";
 import { useLevel } from "./level";
 
@@ -39,7 +40,9 @@ export function ModelCard({ model, extra }: { model: AIModel; extra?: React.Reac
         <ProviderChip provider={p} />
         <TierBadge model={model} />
       </div>
-      <h3>{model.name}</h3>
+      <h3>
+        <Link to={`/model/${model.id}`} style={{ color: "var(--ink)" }}>{model.name}</Link>
+      </h3>
       <div className="model-meta">
         <span>In <b>{model.priceIn === null ? "—" : `$${model.priceIn}`}</b>/M</span>
         <span>Out <b>{model.priceOut === null ? "—" : `$${model.priceOut}`}</b>/M</span>
