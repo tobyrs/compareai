@@ -1,0 +1,116 @@
+{
+  "fetchedAt": "2026-07-19",
+  "source": "openrouter.ai public models API",
+  "models": {
+    "claude-fable-5": {
+      "priceIn": 10,
+      "priceOut": 50,
+      "contextK": 1000
+    },
+    "claude-opus-4-8": {
+      "priceIn": 5,
+      "priceOut": 25,
+      "contextK": 1000
+    },
+    "claude-opus-4-7": {
+      "priceIn": 5,
+      "priceOut": 25,
+      "contextK": 1000
+    },
+    "claude-sonnet-5": {
+      "priceIn": 2,
+      "priceOut": 10,
+      "contextK": 1000
+    },
+    "claude-sonnet-4-6": {
+      "priceIn": 3,
+      "priceOut": 15,
+      "contextK": 1000
+    },
+    "claude-haiku-4-5": {
+      "priceIn": 1,
+      "priceOut": 5,
+      "contextK": 200
+    },
+    "gpt-5-6-sol": {
+      "priceIn": 5,
+      "priceOut": 30,
+      "contextK": 1050
+    },
+    "gpt-5-6-terra": {
+      "priceIn": 2.5,
+      "priceOut": 15,
+      "contextK": 1050
+    },
+    "gpt-5-6-luna": {
+      "priceIn": 1,
+      "priceOut": 6,
+      "contextK": 1050
+    },
+    "gpt-5-5": {
+      "priceIn": 5,
+      "priceOut": 30,
+      "contextK": 1050
+    },
+    "gpt-5-4": {
+      "priceIn": 2.5,
+      "priceOut": 15,
+      "contextK": 1050
+    },
+    "gpt-5-1": {
+      "priceIn": 1.25,
+      "priceOut": 10,
+      "contextK": 400
+    },
+    "gemini-3-1-pro": {
+      "priceIn": 2,
+      "priceOut": 12,
+      "contextK": 1049
+    },
+    "gemini-3-5-flash": {
+      "priceIn": 1.5,
+      "priceOut": 9,
+      "contextK": 1049
+    },
+    "gemini-3-1-flash-lite": {
+      "priceIn": 0.25,
+      "priceOut": 1.5,
+      "contextK": 1049
+    },
+    "gemini-2-5-flash": {
+      "priceIn": 0.3,
+      "priceOut": 2.5,
+      "contextK": 1049
+    },
+    "grok-4-5": {
+      "priceIn": 2,
+      "priceOut": 6,
+      "contextK": 500
+    },
+    "grok-4-3": {
+      "priceIn": 1.25,
+      "priceOut": 2.5,
+      "contextK": 1000
+    },
+    "deepseek-v4-pro": {
+      "priceIn": 0.435,
+      "priceOut": 0.87,
+      "contextK": 1049
+    },
+    "deepseek-v3-2": {
+      "priceIn": 0.269,
+      "priceOut": 0.4,
+      "contextK": 164
+    },
+    "mistral-large-3": {
+      "priceIn": 0.5,
+      "priceOut": 1.5,
+      "contextK": 262
+    },
+    "llama-4": {
+      "priceIn": 0.2,
+      "priceOut": 0.8,
+      "contextK": 1049
+    }
+  }
+}

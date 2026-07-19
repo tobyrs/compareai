@@ -1,4 +1,5 @@
 import { Link, NavLink, Route, Routes } from "react-router-dom";
+import { DATA_UPDATED } from "./data/models";
 import { LevelProvider, useLevel } from "./level";
 import Home from "./pages/Home";
 import Compare from "./pages/Compare";
@@ -63,8 +64,9 @@ export default function App() {
       </Routes>
       <footer className="footer">
         <div className="container">
-          CompareAI — the AI model comparison database. Data snapshot: July 2026. Prices and specs
-          change frequently; always verify with the provider before committing to a plan.
+          CompareAI — the AI model comparison database. Prices &amp; context windows auto-refresh
+          daily from public APIs (last update: {DATA_UPDATED}). Qualitative notes are a July 2026
+          editorial snapshot. Always verify with the provider before committing to a plan.
           {" "}<Link to="/about">About the data</Link>
         </div>
       </footer>

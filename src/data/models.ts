@@ -1,8 +1,12 @@
 // ============================================================
 // CompareAI model database — single source of truth.
-// Data snapshot: July 2026. Prices are USD per 1M tokens.
-// null = not publicly confirmed at snapshot time (render as "—").
+// Prices are USD per 1M tokens.
+// Static values below are the July 2026 snapshot/fallback;
+// live.json (refreshed daily from OpenRouter by GitHub Actions)
+// overrides price + context at load time — see bottom of file.
+// null = not publicly confirmed (render as "—").
 // ============================================================
+import live from "./live.json";
 
 export type Tier = "flagship" | "balanced" | "budget" | "open";
 
@@ -200,18 +204,18 @@ export const MODELS: AIModel[] = [
     caps: { reasoning: true, vision: true, toolUse: true, openWeights: false, promptCaching: true },
     bestFor: ["Coding & agent tasks on a budget", "Fast production workloads"],
     beginnerNote: "Google's newest speed-focused model — reportedly beats their own flagship at coding, for less money.",
-    expertNote: "Launched May 2026; beats 3.1 Pro on coding/agent benchmarks at lower cost. Check ai.google.dev for current pricing.",
+    expertNote: "Launched May 2026; beats 3.1 Pro on coding/agent benchmarks at a lower price point. Flash-tier latency.",
     strengths: ["Beats Gemini 3.1 Pro on coding & agent tasks", "Flash-tier speed"],
-    considerations: ["Pricing not confirmed in our snapshot — check Google's page"],
+    considerations: ["Newer model — production track record still forming"],
   },
   {
     id: "gemini-3-1-flash-lite", providerId: "google", name: "Gemini 3.1 Flash-Lite", tier: "budget",
     released: "2026", contextK: 1000, maxOutputK: 64, priceIn: 0.1, priceOut: 0.4,
     caps: { reasoning: false, vision: true, toolUse: true, openWeights: false, promptCaching: true },
     bestFor: ["Ultra-cheap high-volume tasks", "Latency-critical apps"],
-    beginnerNote: "One of the cheapest AI models you can buy — and one of the fastest (363 tokens/sec).",
-    expertNote: "363 tok/s — 45% faster than Gemini 2.5 Flash at one-eighth the cost of Pro. Free tier with reduced quotas.",
-    strengths: ["Rock-bottom pricing", "Very high throughput", "Still on free tier"],
+    beginnerNote: "One of the cheapest capable AI models — and one of the fastest (363 tokens/sec).",
+    expertNote: "363 tok/s — 45% faster than Gemini 2.5 Flash. Free tier with reduced quotas.",
+    strengths: ["Very low pricing", "Very high throughput", "Still on free tier"],
     considerations: ["Not built for complex reasoning"],
   },
   {
@@ -220,7 +224,7 @@ export const MODELS: AIModel[] = [
     caps: { reasoning: true, vision: true, toolUse: true, openWeights: false, promptCaching: true },
     bestFor: ["Value-focused production", "Proven cheap workhorse"],
     beginnerNote: "An older but reliable cheap model — consistently rated one of the best value-for-money picks.",
-    expertNote: "$0.15/$0.60. Consistently tops quality-per-dollar rankings alongside DeepSeek V3.2.",
+    expertNote: "Consistently tops quality-per-dollar rankings alongside DeepSeek V3.2. Mature, stable, widely deployed.",
     strengths: ["Excellent value", "Mature and stable"],
     considerations: ["Two generations old"],
   },
@@ -265,7 +269,7 @@ export const MODELS: AIModel[] = [
     caps: { reasoning: true, vision: false, toolUse: true, openWeights: true, promptCaching: true },
     bestFor: ["Cheapest capable API", "Cost-first automation"],
     beginnerNote: "Probably the best 'bang for buck' AI on the market — very cheap, surprisingly capable.",
-    expertNote: "$0.14/$0.28 — consistently tops value rankings (quality points per dollar).",
+    expertNote: "Consistently tops value rankings (quality points per dollar). Open weights also available for self-hosting.",
     strengths: ["Extreme value", "Open weights"],
     considerations: ["Not frontier-level on the hardest tasks", "No vision"],
   },
@@ -287,13 +291,30 @@ export const MODELS: AIModel[] = [
     id: "llama-4", providerId: "meta", name: "Llama 4 (family)", tier: "open",
     released: "2025–26", contextK: null, maxOutputK: null, priceIn: null, priceOut: null,
     caps: { reasoning: false, vision: true, toolUse: true, openWeights: true, promptCaching: false },
-    bestFor: ["Self-hosting & full control", "Fine-tuning on private data", "Zero per-token cost"],
-    beginnerNote: "Free to download and run on your own computers — you pay for hardware, not tokens.",
-    expertNote: "Open-weight family (multiple sizes/variants; context varies by variant). Serve via vLLM/llama.cpp or hosted inference providers.",
+    bestFor: ["Self-hosting & full control", "Fine-tuning on private data", "Zero per-token licence cost"],
+    beginnerNote: "Free to download and run on your own computers. The price shown is what hosting companies typically charge to run it for you.",
+    expertNote: "Open-weight family; price/context shown = Llama 4 Maverick via hosted inference (Scout variant reaches 10M ctx). Self-serve via vLLM/llama.cpp for zero per-token cost.",
     strengths: ["No API fees — self-host", "Fine-tunable", "Huge community ecosystem"],
     considerations: ["You manage infrastructure & scaling", "Behind closed frontier models on hardest tasks"],
   },
 ];
+
+// ---- live data merge (daily refresh from OpenRouter) ----
+interface LiveEntry { priceIn: number; priceOut: number; contextK: number }
+const liveModels = live.models as Record<string, LiveEntry>;
+for (const m of MODELS) {
+  const l = liveModels[m.id];
+  if (l) {
+    m.priceIn = l.priceIn;
+    m.priceOut = l.priceOut;
+    // Live context is a serving limit, which can under-report a provider's
+    // official window (e.g. Gemini 3.1 Pro's 2M). Only adopt it when it's
+    // larger than our curated value — i.e. when our static number was stale.
+    if (m.contextK === null || l.contextK > m.contextK) m.contextK = l.contextK;
+  }
+}
+/** Date the live pricing data was last fetched (YYYY-MM-DD). */
+export const DATA_UPDATED: string = live.fetchedAt;
 
 export const providerOf = (m: AIModel): Provider =>
   PROVIDERS.find((p) => p.id === m.providerId)!;
