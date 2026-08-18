@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-08-17",
+  "fetchedAt": "2026-08-18",
   "source": "openrouter.ai public models API",
   "models": {
     "claude-fable-5": {
@@ -33,18 +33,18 @@
       "contextK": 200
     },
     "gpt-5-6-sol": {
-      "priceIn": 5,
-      "priceOut": 30,
+      "priceIn": 2.5,
+      "priceOut": 15,
       "contextK": 1050
     },
     "gpt-5-6-terra": {
-      "priceIn": 1,
-      "priceOut": 6,
+      "priceIn": 2,
+      "priceOut": 12,
       "contextK": 1050
     },
     "gpt-5-6-luna": {
-      "priceIn": 0.1,
-      "priceOut": 0.6,
+      "priceIn": 0.2,
+      "priceOut": 1.2,
       "contextK": 1050
     },
     "gpt-5-5": {
