@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-08-21",
+  "fetchedAt": "2026-08-22",
   "source": "openrouter.ai public models API",
   "models": {
     "claude-fable-5": {
@@ -33,8 +33,8 @@
       "contextK": 200
     },
     "gpt-5-6-sol": {
-      "priceIn": 2.5,
-      "priceOut": 15,
+      "priceIn": 2,
+      "priceOut": 10,
       "contextK": 1050
     },
     "gpt-5-6-terra": {
@@ -93,13 +93,13 @@
       "contextK": 1000
     },
     "deepseek-v4-pro": {
-      "priceIn": 1.6,
-      "priceOut": 3.2,
+      "priceIn": 0.465,
+      "priceOut": 0.929,
       "contextK": 1049
     },
     "deepseek-v3-2": {
-      "priceIn": 0.269,
-      "priceOut": 0.4,
+      "priceIn": 0.26,
+      "priceOut": 0.38,
       "contextK": 164
     },
     "mistral-large-3": {
