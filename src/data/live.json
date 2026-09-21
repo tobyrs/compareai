@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-09-20",
+  "fetchedAt": "2026-09-21",
   "source": "openrouter.ai public models API",
   "models": {
     "claude-fable-5": {
@@ -93,8 +93,8 @@
       "contextK": 1000
     },
     "deepseek-v4-pro": {
-      "priceIn": 0.422,
-      "priceOut": 0.845,
+      "priceIn": 0.955,
+      "priceOut": 1.911,
       "contextK": 1049
     },
     "deepseek-v3-2": {
@@ -103,8 +103,8 @@
       "contextK": 164
     },
     "llama-4": {
-      "priceIn": 0.188,
-      "priceOut": 0.653,
+      "priceIn": 0.2,
+      "priceOut": 0.8,
       "contextK": 1049
     }
   }
