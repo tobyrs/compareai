@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-09-21",
+  "fetchedAt": "2026-09-22",
   "source": "openrouter.ai public models API",
   "models": {
     "claude-fable-5": {
@@ -103,8 +103,8 @@
       "contextK": 164
     },
     "llama-4": {
-      "priceIn": 0.2,
-      "priceOut": 0.8,
+      "priceIn": 0.188,
+      "priceOut": 0.653,
       "contextK": 1049
     }
   }
